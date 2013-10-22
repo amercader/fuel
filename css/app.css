@@ -1,0 +1,16 @@
+.selects .select {
+  width: 180px;
+}
+
+.results {
+  max-width: 600px;
+  height: 200px;
+  overflow: auto;
+}
+
+.results .result {
+  border-top: 1px solid gray;
+  padding: 10px 0;
+  cursor: pointer;
+
+}

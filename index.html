@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="bower_components/select2/select2.css" rel="stylesheet" media="screen">
+    <link href="css/app.css" rel="stylesheet" media="screen">
+
+  </head>
+
+  <body>
+    <div class="search">
+      <div class="row selects"></div>
+      <div class="results"></div>
+    </div>
+    <div class="compare"></div>
+
+    <script type="text/template" id="results-item-template">
+      <div class="result"><span>{{description}}</span> - <span>({{engine_capacity}} cc)</span></div>
+    </script>
+
+    <script type="text/template" id="compare-item-template">
+      <div><span>{{year}} {{manufacturer}} {{model}} {{description}} ({{engine_capacity}} cc, {{transmission_type}}), CO<sub>2</sub>: {{co2}}, Combined: {{combined_metric}}</div>
+    </script>
+
+
+    <script src="bower_components/jquery/jquery.min.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="bower_components/underscore/underscore-min.js"></script>
+    <script src="bower_components/backbone/backbone-min.js"></script>
+    <script src="bower_components/handlebars/handlebars.js"></script>
+    <script src="bower_components/select2/select2.min.js"></script>
+
+    <script src="app.js"></script>
+
+  </body>
+</html>
