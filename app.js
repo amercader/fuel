@@ -1,16 +1,43 @@
 var App = {
-  pubSub: _.clone(Backbone.Events)
+  pubSub: _.clone(Backbone.Events),
+  apiHost: 'http://localhost:3000'
 }
 
 
 App.Car = Backbone.Model.extend();
 
-App.SearchResultsCollection = Backbone.Collection.extend({
-  model: App.Car,
-  urlTemplate: Handlebars.compile('/api/1/search?q=*:*&fq=year:{{year}}&fq=manufacturer:{{make}}&fq=model:{{model}}&rows={{limit}}'),
+App.Collection = Backbone.Collection.extend({
+
+  urlTemplate: {},
+
+  urlParams: {},
+
+  url: function(){
+    return App.apiHost + this.urlTemplate(this.urlParams);
+  },
+
   parse: function(response, options) {
     return response.results;
   }
+});
+
+
+App.MakesCollection = App.Collection.extend({
+  urlTemplate: Handlebars.compile('/api/1/autocomplete/manufacturer?fq=year:{{year}}'),
+});
+
+
+App.ModelsCollection = App.Collection.extend({
+  urlTemplate: Handlebars.compile('/api/1/autocomplete/model?fq=year:{{year}}&fq=manufacturer:{{make}}'),
+});
+
+
+App.SearchResultsCollection = App.Collection.extend({
+
+  model: App.Car,
+
+  urlTemplate: Handlebars.compile('/api/1/search?q=*:*&fq=year:{{year}}&fq=manufacturer:{{make}}&fq=model:{{model}}&rows={{limit}}')
+
 });
 
 App.CompareCollection = Backbone.Collection.extend({
@@ -52,12 +79,6 @@ App.YearsSelectView = Backbone.View.extend({
 });
 
 
-App.MakesCollection = Backbone.Collection.extend({
-  urlTemplate: Handlebars.compile('/api/1/autocomplete/manufacturer?fq=year:{{year}}'),
-  parse: function(response, options) {
-    return response.results;
-  }
-});
 
 App.MakesSelectView = Backbone.View.extend({
 
@@ -75,7 +96,7 @@ App.MakesSelectView = Backbone.View.extend({
     });
 
     App.pubSub.on('year:change', function(year) {
-      _this.collection.url = _this.collection.urlTemplate({year: year.id});
+      _this.collection.urlParams = {year: year.id};
       _this.collection.fetch({reset: true});
     });
   },
@@ -100,12 +121,6 @@ App.MakesSelectView = Backbone.View.extend({
 
 });
 
-App.ModelsCollection = Backbone.Collection.extend({
-  urlTemplate: Handlebars.compile('/api/1/autocomplete/model?fq=year:{{year}}&fq=manufacturer:{{make}}'),
-  parse: function(response, options) {
-    return response.results;
-  }
-});
 
 
 App.ModelsSelectView = Backbone.View.extend({
@@ -135,7 +150,7 @@ App.ModelsSelectView = Backbone.View.extend({
 
     App.pubSub.on('make:change', function(make) {
       _this.make = make.id;
-      _this.collection.url = _this.collection.urlTemplate({year: _this.year, make: _this.make});
+      _this.collection.urlParams = {year: _this.year, make: _this.make};
       _this.collection.fetch({reset: true});
     });
 
@@ -193,12 +208,12 @@ App.SearchResultsView = Backbone.View.extend({
     });
 
     App.pubSub.on('model:change', function(model) {
-      _this.collection.url = _this.collection.urlTemplate({
+      _this.collection.urlParams = {
         year: _this.year,
         make: _this.make,
         model: model.id,
         limit: _this.limit
-      });
+      };
       _this.collection.fetch({reset: true});
     });
 
@@ -268,10 +283,6 @@ App.CompareView = Backbone.View.extend({
   } 
 
 });
-
-
-
-
 
 $(document).ready(function() {
 
