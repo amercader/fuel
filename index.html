@@ -11,10 +11,7 @@
   </head>
 
   <body>
-    <div class="search">
-      <div class="row selects"></div>
-      <div class="results"></div>
-    </div>
+    <div class="search"></div>
     <div class="compare"></div>
 
     <script type="text/template" id="results-item-template">
@@ -24,7 +21,6 @@
     <script type="text/template" id="compare-item-template">
       <div><span>{{year}} {{manufacturer}} {{model}} {{description}} ({{engine_capacity}} cc, {{transmission_type}}), CO<sub>2</sub>: {{co2}}, Combined: {{combined_metric}}</div>
     </script>
-
 
     <script src="bower_components/jquery/jquery.min.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>

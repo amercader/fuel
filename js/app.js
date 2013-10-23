@@ -6,17 +6,8 @@ var App = {
 
 $(document).ready(function() {
 
-  App.yearsSelectView = new App.YearsSelectView();
-  App.makesSelectView = new App.MakesSelectView();
-  App.modelsSelectView = new App.ModelsSelectView();
-  $('.selects').append([
-    App.yearsSelectView.render().el,
-    App.makesSelectView.render().el,
-    App.modelsSelectView.render().el
-  ]);
-
-  App.searchResultsView = new App.SearchResultsView();
-  $('.results').append(App.searchResultsView.render().el);
+  App.searchView = new App.SearchView();
+  $('.search').html(App.searchView.render().el);
 
   App.compareView = new App.CompareView();
   $('.compare').append(App.compareView.render().el);

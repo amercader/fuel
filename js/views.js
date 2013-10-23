@@ -195,6 +195,38 @@ App.SearchResultsView = Backbone.View.extend({
 });
 
 
+App.SearchView = Backbone.View.extend({
+
+  initialize: function() {
+
+    this.selectViews = [
+      new App.YearsSelectView(),
+      new App.MakesSelectView(),
+      new App.ModelsSelectView()
+    ];
+
+    this.searchResultsView = new App.SearchResultsView();
+  },
+
+  render: function() {
+
+    this.$el.empty();
+
+    var selects = $('<div></div>').attr('class', 'row selects');
+    var results = $('<div></div>').attr('class', 'results');
+
+    _.each(this.selectViews, function(view) {
+      selects.append(view.render().el);
+    });
+
+    results.append(this.searchResultsView.render().el);
+
+    this.$el.append(selects).append(results);
+    return this;
+  }
+});
+
+
 App.CompareView = Backbone.View.extend({
 
   initialize: function() {
@@ -233,6 +265,6 @@ App.CompareView = Backbone.View.extend({
     var item = this.itemTemplate(car.toJSON())
     this.$el.append(item);
     return this;
-  } 
+  }
 
 });
