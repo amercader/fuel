@@ -1,8 +1,32 @@
+@media (min-width: 768px) {
+  .container {
+    max-width: 730px;
+  }
+}
+.container {
+border: 1px solid gray;
+}
+
+.selects {
+  margin-top: 30px;
+}
+
 .selects .select {
   width: 180px;
 }
 
-.results {
+.selects .select-row {
+}
+
+.selects .select-container {
+  padding-top: 5px;
+}
+
+.results .helper {
+  display: none;
+}
+
+.results .listing {
   max-width: 600px;
   height: 200px;
   overflow: auto;
@@ -12,5 +36,9 @@
   border-top: 1px solid gray;
   padding: 10px 0;
   cursor: pointer;
+}
 
+.compare .units {
+  font-size: x-small;
+  color: #6D6D6D;
 }

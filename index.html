@@ -11,15 +11,66 @@
   </head>
 
   <body>
-    <div class="search"></div>
-    <div class="compare"></div>
+
+    <div class="container">
+
+      <div class="search">
+
+        <div class="selects form-horizontal"></div>
+
+        <div class="results">
+          <p class="helper">Select the closest option to the car you are looking for: </p>
+          <p class="current"></p>
+          <div class="listing"></div>
+        </div>
+
+      </div>
+
+      <div class="compare">
+
+        <div class="header row">
+
+          <div class="car col-xs-6">Car</div>
+
+          <div class="combined col-xs-3">Combined
+            <div class="units">km/l</div>
+          </div>
+
+
+          <div class="co2 col-xs-3">CO<sub>2</sub>
+            <div class="units">g/km</div>
+          </div>
+        </div>
+
+        <div class="items">
+
+        </div>
+      </div>
+
+    </div>
+
+    <script type="text/template" id="select-template">
+      <label for={{value}} class="col-xs-2 col-lg-2 control-label">{{label}}</label>
+      <div class="col-xs-6 col-lg-2 select-container">
+        <div id="{{value}}" class="select {{value}}"</div>
+      </div>
+    </script>
 
     <script type="text/template" id="results-item-template">
       <div class="result"><span>{{description}}</span> - <span>({{engine_capacity}} cc)</span></div>
     </script>
 
     <script type="text/template" id="compare-item-template">
-      <div><span>{{year}} {{manufacturer}} {{model}} {{description}} ({{engine_capacity}} cc, {{transmission_type}}), CO<sub>2</sub>: {{co2}}, Combined: {{combined_metric}}</div>
+      <div class="row">
+        <div class="car col-xs-6">
+          {{year}} {{manufacturer}} {{model}} {{description}} ({{engine_capacity}} cc, {{transmission_type}})
+        </div>
+        <div class="combined col-xs-3">
+          {{combined_metric}}
+        </div>
+        <div class="co2 col-xs-3">
+         {{co2}}
+        </div>
     </script>
 
     <script src="bower_components/jquery/jquery.min.js"></script>

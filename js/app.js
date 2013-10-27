@@ -7,9 +7,9 @@ var App = {
 $(document).ready(function() {
 
   App.searchView = new App.SearchView();
-  $('.search').html(App.searchView.render().el);
+  App.searchView.render();
 
   App.compareView = new App.CompareView();
-  $('.compare').append(App.compareView.render().el);
+  App.compareView.render();
 
 });

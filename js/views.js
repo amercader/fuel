@@ -1,12 +1,19 @@
-App.YearsSelectView = Backbone.View.extend({
+App.SelectView = Backbone.View.extend({
 
-  className: 'col-md-2',
+  className: 'select-row form-group',
+
+  selectTemplate: Handlebars.compile($('#select-template').html())
+
+});
+
+App.YearsSelectView = App.SelectView.extend({
 
   initialize: function() {
     var start = 2000;
     var end = 2013;
 
-    this.template = '<div class="select year"></div>',
+    this.template = this.selectTemplate({value: 'year', label: 'Year'});
+
     this.collection = new Backbone.Collection(
       _.map(_.range(start, end + 1), function(year) {
         return {id: year, text: year.toString()};
@@ -23,7 +30,7 @@ App.YearsSelectView = Backbone.View.extend({
   render: function() {
     this.$el.html(this.template)
       .find('.select').select2({
-        placeholder: 'Year',
+        placeholder: 'Select a Year',
         data: this.collection.toJSON()
       });
     return this;
@@ -32,15 +39,13 @@ App.YearsSelectView = Backbone.View.extend({
 });
 
 
-App.MakesSelectView = Backbone.View.extend({
-
-  className: 'col-md-2',
+App.MakesSelectView = App.SelectView.extend({
 
   initialize: function() {
 
     var _this = this;
 
-    this.template = '<div class="select make"></div>',
+    this.template = this.selectTemplate({value: 'make', label: 'Make'});
     this.collection = new App.MakesCollection([]);
 
     this.collection.on('reset', function() {
@@ -74,9 +79,7 @@ App.MakesSelectView = Backbone.View.extend({
 });
 
 
-App.ModelsSelectView = Backbone.View.extend({
-
-  className: 'col-md-2',
+App.ModelsSelectView = App.SelectView.extend({
 
   year: false,
 
@@ -86,7 +89,7 @@ App.ModelsSelectView = Backbone.View.extend({
 
     var _this = this;
 
-    this.template = '<div class="select model"></div>',
+    this.template = this.selectTemplate({value: 'model', label: 'Model'});
     this.collection = new App.ModelsCollection([]);
 
     this.collection.on('reset', function() {
@@ -130,11 +133,15 @@ App.ModelsSelectView = Backbone.View.extend({
 
 App.SearchResultsView = Backbone.View.extend({
 
+  el: '.results',
+
   limit: 1000,
 
   year: false,
 
   make: false,
+
+  model: false,
 
   initialize: function() {
 
@@ -160,6 +167,7 @@ App.SearchResultsView = Backbone.View.extend({
     });
 
     App.pubSub.on('model:change', function(model) {
+      _this.model = model.id;
       _this.collection.urlParams = {
         year: _this.year,
         make: _this.make,
@@ -180,14 +188,22 @@ App.SearchResultsView = Backbone.View.extend({
   render: function() {
     var _this = this;
 
-    this.$el.empty();
+    if (this.collection.length) {
+      this.$el.find('.helper').show();
+      this.$el.find('.current').html(this.year + ' ' + this.make + ' ' + this.model);
+    } else {
+      this.$el.find('.helper').hide();
+      this.$el.find('.current').empty();
+    }
+
+    var listing = this.$el.find('.listing').empty();
 
     this.collection.each(function(car) {
       var item = $(_this.itemTemplate(car.toJSON()))
                  .on('click', function() {
                    App.pubSub.trigger('result:select', car);
                   });
-      _this.$el.append(item);
+      listing.append(item);
     });
     return this;
   }
@@ -196,6 +212,8 @@ App.SearchResultsView = Backbone.View.extend({
 
 
 App.SearchView = Backbone.View.extend({
+
+  el: '.search',
 
   initialize: function() {
 
@@ -210,24 +228,21 @@ App.SearchView = Backbone.View.extend({
 
   render: function() {
 
-    this.$el.empty();
-
-    var selects = $('<div></div>').attr('class', 'row selects');
-    var results = $('<div></div>').attr('class', 'results');
+    var selects = this.$el.find('.selects').empty();
+    var listing = this.$el.find('.listing').empty();
 
     _.each(this.selectViews, function(view) {
       selects.append(view.render().el);
     });
 
-    results.append(this.searchResultsView.render().el);
-
-    this.$el.append(selects).append(results);
     return this;
   }
 });
 
 
 App.CompareView = Backbone.View.extend({
+
+  el: '.compare',
 
   initialize: function() {
 
