@@ -3,11 +3,18 @@ App.Car = Backbone.Model.extend();
 
 App.Collection = Backbone.Collection.extend({
 
+  escapeChars: /(\+|\-|\!|\(|\)|\{|\}|\[|\]|\^|\"|\~|\*|\?|\:|\\)/g,
+
   urlTemplate: {},
 
   urlParams: {},
 
-  url: function(){
+  url: function() {
+    for (param in this.urlParams) {
+      if (typeof(this.urlParams[param]) == 'string') {
+        this.urlParams[param] = this.urlParams[param].replace(this.escapeChars, '\\$&');
+      }
+    }
     return App.apiHost + this.urlTemplate(this.urlParams);
   },
 
