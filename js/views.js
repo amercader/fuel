@@ -251,13 +251,21 @@ App.CompareView = Backbone.View.extend({
     this.itemTemplate = Handlebars.compile($('#compare-item-template').html()),
     this.collection = new App.CompareCollection([]);
 
+    this.noItemsEl = this.$el.find('.no-items');
+
     this.collection
       .on('reset', function() {
         _this.render();
+        _this.noItemsEl.show();
       })
       .on('add', function(car) {
         _this.addItem(car);
       })
+      .on('remove', function(car) {
+        if (!_this.collection.length) {
+          _this.noItemsEl.show();
+        }
+      });
 
     App.pubSub.on('result:select', function(car) {
       _this.collection.add(car);
@@ -277,7 +285,24 @@ App.CompareView = Backbone.View.extend({
   },
 
   addItem: function(car) {
-    var item = this.itemTemplate(car.toJSON())
+
+    var _this = this;
+
+    if (this.noItemsEl.is(':visible')) {
+      this.noItemsEl.hide();
+    }
+
+    var item = $(this.itemTemplate(car.toJSON()));
+
+    item.find('.remove').click(function(){
+      item.remove();
+      _this.collection.remove(car);
+    });
+
+    item.hover(function() {
+      $(this).find('.remove').toggle();
+    });
+
     this.$el.append(item);
     return this;
   }

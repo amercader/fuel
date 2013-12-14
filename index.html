@@ -4,6 +4,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.css" rel="stylesheet" media="screen">
     <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="bower_components/select2/select2.css" rel="stylesheet" media="screen">
     <link href="css/app.css" rel="stylesheet" media="screen">
@@ -33,7 +34,7 @@
           <div class="car col-xs-6">Car</div>
 
           <div class="combined col-xs-3">Combined
-            <div class="units">km/l</div>
+            <div class="units">l/100 km</div>
           </div>
 
 
@@ -43,7 +44,7 @@
         </div>
 
         <div class="items">
-
+          <div class="no-items">No cars to compare! Select a few with the form above.</div>
         </div>
       </div>
 
@@ -62,8 +63,11 @@
 
     <script type="text/template" id="compare-item-template">
       <div class="row">
+
         <div class="car col-xs-6">
-          {{year}} {{manufacturer}} {{model}} {{description}} ({{engine_capacity}} cc, {{transmission_type}})
+          <div>{{year}} {{manufacturer}} {{model}}</div>
+          <div>{{description}}</div>
+          <div>{{fuel_type}}, {{engine_capacity}} cc, {{transmission_type}}</div>
         </div>
         <div class="combined col-xs-3">
           {{combined_metric}}
@@ -71,6 +75,10 @@
         <div class="co2 col-xs-3">
          {{co2}}
         </div>
+        <div class="pull-right remove">
+          <i class="fa fa-times-circle"></i>
+        </div>
+
     </script>
 
     <script src="bower_components/jquery/jquery.min.js"></script>
