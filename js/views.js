@@ -251,9 +251,14 @@ App.CompareView = Backbone.View.extend({
     this.itemTemplate = Handlebars.compile($('#compare-item-template').html()),
     this.collection = new App.CompareCollection([]);
 
+
+    this.itemsEl = this.$el.find('.items');
     this.noItemsEl = this.$el.find('.no-items');
 
     this.collection
+      .on('sort', function() {
+        _this.render();
+      })
       .on('reset', function() {
         _this.render();
         _this.noItemsEl.show();
@@ -271,6 +276,30 @@ App.CompareView = Backbone.View.extend({
       _this.collection.add(car);
     });
 
+    this.sortMappings = {
+      car: 'year',
+      combined: 'combined_metric',
+      co2: 'co2'
+    }
+
+    this.$el.find('.header').children('div').click(function(){
+      var dir;
+      var $i = $(this).find('i');
+      var currentAsc = $i.hasClass('fa-sort-asc');
+      var currentDesc = $i.hasClass('fa-sort-desc');
+
+      if (currentDesc || (!currentAsc && !currentDesc)) {
+        dir = 'asc';
+        $i.addClass('fa-sort-asc').removeClass('fa-sort-desc');
+      } else {
+        dir = 'desc';
+        $i.addClass('fa-sort-desc').removeClass('fa-sort-asc');
+      }
+
+      $(this).siblings().find('i').removeClass('fa-sort-desc').removeClass('fa-sort-asc');
+      _this.sortBy(this.className.split(' ')[0], dir);
+    });
+
   },
 
   events: {
@@ -280,7 +309,15 @@ App.CompareView = Backbone.View.extend({
   },
 
   render: function() {
-    this.collection.each(this.addItem);
+    var _this = this;
+
+    if (!this.collection.length) return this;
+
+    this.itemsEl.empty();
+
+    this.collection.each(function(car) {
+      _this.addItem(car);
+    });
     return this;
   },
 
@@ -303,8 +340,18 @@ App.CompareView = Backbone.View.extend({
       $(this).find('.remove').toggle();
     });
 
-    this.$el.append(item);
+    this.itemsEl.append(item);
     return this;
+  },
+
+  sortBy: function(field, dir) {
+    var _this = this;
+    dir = dir || 'asc';
+    var dirModifier = (dir == 'asc') ? 1 : -1;
+    this.collection.comparator = function(model) {
+      return dirModifier * model.get(_this.sortMappings[field]);
+    }
+    this.collection.sort();
   }
 
 });

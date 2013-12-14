@@ -31,20 +31,20 @@
 
         <div class="header row">
 
-          <div class="car col-xs-6">Car</div>
+          <div class="car col-xs-6"><i class="fa fa-fw"></i>Car</div>
 
-          <div class="combined col-xs-3">Combined
-            <div class="units">l/100 km</div>
+          <div class="combined col-xs-3"><i class="fa fa-fw"></i>Combined
+            <span class="units">l/100 km</span>
           </div>
 
 
-          <div class="co2 col-xs-3">CO<sub>2</sub>
-            <div class="units">g/km</div>
+          <div class="co2 col-xs-3"><i class="fa fa-fw"></i>CO<sub>2</sub>
+            <span class="units">g/km</span>
           </div>
         </div>
 
+        <div class="no-items">No cars to compare! Select a few with the form above.</div>
         <div class="items">
-          <div class="no-items">No cars to compare! Select a few with the form above.</div>
         </div>
       </div>
 
@@ -69,14 +69,15 @@
           <div>{{description}}</div>
           <div>{{fuel_type}}, {{engine_capacity}} cc, {{transmission_type}}</div>
         </div>
-        <div class="combined col-xs-3">
+        <div class="combined value col-xs-3">
           {{combined_metric}}
         </div>
-        <div class="co2 col-xs-3">
+        <div class="co2 value col-xs-3">
          {{co2}}
-        </div>
         <div class="pull-right remove">
           <i class="fa fa-times-circle"></i>
+        </div>
+
         </div>
 
     </script>

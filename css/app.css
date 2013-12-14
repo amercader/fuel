@@ -41,6 +41,8 @@ border: 1px solid gray;
 .compare .units {
   font-size: x-small;
   color: #6D6D6D;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .compare .no-items {
@@ -50,20 +52,38 @@ border: 1px solid gray;
   margin: 30px 0;
 }
 
+.compare .header > div {
+  cursor: pointer;
+  text-align: center;
+}
+
+.compare .header .asc {
+  color: green;
+}
+
+.compare .header .desc {
+  color: red;
+}
+
 .compare .row {
   border-bottom: 1px solid gray;
 }
 
+.compare .value {
+  font-weight: bold;
+  font-size: x-large;
+  text-align: center;
+}
+
 .remove {
-  width: 2em;
-  height: 2em;
   display: none;
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  font-size: medium;
 }
 
 .remove i {
-  width: 1em;
-  height: 1em;
-  display: block;
   color: #b94a48;
   cursor: pointer;
 }
