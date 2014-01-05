@@ -12,7 +12,7 @@ App.Collection = Backbone.Collection.extend({
   url: function() {
     for (param in this.urlParams) {
       if (typeof(this.urlParams[param]) == 'string') {
-        this.urlParams[param] = this.urlParams[param].replace(this.escapeChars, '\\$&');
+        this.urlParams[param] = escape(this.urlParams[param].replace(this.escapeChars, '\\$&'));
       }
     }
     return App.apiHost + this.urlTemplate(this.urlParams);
@@ -33,7 +33,7 @@ App.MakesCollection = App.Collection.extend({
 
 App.ModelsCollection = App.Collection.extend({
 
-  urlTemplate: Handlebars.compile('/api/1/autocomplete/model?fq=year:{{year}}&fq=manufacturer:{{make}}'),
+  urlTemplate: Handlebars.compile('/api/1/autocomplete/model?fq=year:{{year}}&fq=manufacturer:"{{make}}"'),
 
 });
 
@@ -42,7 +42,7 @@ App.SearchResultsCollection = App.Collection.extend({
 
   model: App.Car,
 
-  urlTemplate: Handlebars.compile('/api/1/search?q=*:*&fq=year:{{year}}&fq=manufacturer:{{make}}&fq=model:{{model}}&rows={{limit}}')
+  urlTemplate: Handlebars.compile('/api/1/search?q=*:*&fq=year:{{year}}&fq=manufacturer:"{{make}}"&fq=model:"{{model}}"&rows={{limit}}')
 
 });
 
