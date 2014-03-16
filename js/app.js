@@ -1,6 +1,7 @@
 var App = {
   pubSub: _.clone(Backbone.Events),
-  apiHost: 'http://localhost:3000'
+    apiHost: 'http://demo.ckan.org',
+    ckanResourceId: 'ad332faf-26ee-4b58-b76c-cecfe72a9ae4'
 }
 
 
