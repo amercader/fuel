@@ -7,6 +7,10 @@
 border: 1px solid gray;
 }
 
+.search {
+  margin-top: 30px;
+}
+
 .selects {
   margin-top: 30px;
 }
@@ -24,6 +28,10 @@ border: 1px solid gray;
 
 .results .helper {
   display: none;
+}
+
+.results .current {
+  font-weight: bold;
 }
 
 .results .listing {
